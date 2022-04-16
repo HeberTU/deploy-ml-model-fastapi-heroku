@@ -6,6 +6,14 @@ authors = ["Heber Trujillo <heber.trj.urt@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+numpy = "^1.22.3"
+pandas = "^1.4.2"
+scikit-learn = "^1.0.2"
+pytest = "^7.1.1"
+requests = "^2.27.1"
+fastapi = "0.63.0"
+uvicorn = "^0.17.6"
+gunicorn = "^20.1.0"
 
 [tool.poetry.dev-dependencies]
 

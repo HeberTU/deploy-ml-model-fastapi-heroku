@@ -20,6 +20,7 @@ isort = "^5.10.1"
 pydocstyle = "^6.1.1"
 toml = "^0.10.2"
 dvc = {extras = ["s3"], version = "^2.10.1"}
+pandera = "^0.10.1"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,6 +1,45 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
+import pandas as pd
+import pandera as pa
+from pandera.typing import DataFrame
+
+from src.settings import settings, data_config
+from src.schemas.census import CensusInputSchema
+
+
+def preprocess_data() -> DataFrame[CensusInputSchema]:
+    """Read and validate raw census data."""
+
+    data = pd.read_csv(settings.DATA_PATH / data_config["raw"]["name"])
+
+    data.columns = [col.strip().replace("-", "_") for col in data.columns]
+
+    data = data.apply(
+        lambda col: col.str.strip() if col.dtype=='O' else col
+    )
+
+    data = data.drop(
+        columns=["education_num", "capital_gain", "capital_loss"]
+    )
+
+    data = data.replace(
+        to_replace= {"?": None}
+    )
+
+    data = data.dropna()
+
+    @pa.check_types
+    def check_inputs(
+        data_frame: DataFrame[CensusInputSchema],
+    ) -> DataFrame[CensusInputSchema]:
+        """Validate Census Input schema."""
+
+        return data_frame
+
+    return check_inputs(data)
+
 
 def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None

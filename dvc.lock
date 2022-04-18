@@ -1,0 +1,16 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python prepare.py
+    deps:
+    - path: data/census.csv
+      md5: 145de00f6e6053d3f7044628f9a5b5ff
+      size: 3974474
+    - path: prepare.py
+      md5: 6dd8c6d15ac81ce5dba7896db8bddfac
+      size: 542
+    outs:
+    - path: data/clean_census.csv
+      md5: cb493eb6c40754ace6f26eac477437b8
+      size: 3087899
+      isexec: true

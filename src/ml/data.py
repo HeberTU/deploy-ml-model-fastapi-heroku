@@ -1,6 +1,7 @@
-from typing import Tuple
+from typing import Tuple, Optional
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
+from sklearn.model_selection import train_test_split
 
 import pandas as pd
 import pandera as pa
@@ -68,6 +69,36 @@ def preprocess_target(
         return data_frame
 
     return check_inputs(data), lb
+
+
+def segregate_data(
+        clean_data: DataFrame[CensusCleanSchema],
+        test_size: float,
+        random_state: int,
+        stratify: str = 'null'
+) -> Tuple[DataFrame[CensusCleanSchema], DataFrame[CensusCleanSchema]]:
+    """Segregate data into train and test sets.
+
+    Args:
+        clean_data: Cleaned census data.
+        test_size: Fraction of dataset or number of items to include in the test split.
+        random_state: An integer number to use to init the random number generator.
+        stratify: If set, it is the name of a column to use for stratified splitting.
+
+    Returns:
+        train: Cleaned census train data.
+        test:  Cleaned census test data.
+
+    """
+
+    train, test = train_test_split(
+        clean_data,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=clean_data[stratify] if stratify != 'null' else None
+    )
+
+    return train, test
 
 
 def process_data(

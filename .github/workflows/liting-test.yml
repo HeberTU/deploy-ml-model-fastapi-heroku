@@ -33,7 +33,7 @@ jobs:
     - name: Setup DVC
       uses: iterative/setup-dvc@v1
     - name: Pull data from DVC
-      uses: dvc pull -R
+      run: dvc pull -R
     - name: Linting
       run: |
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics

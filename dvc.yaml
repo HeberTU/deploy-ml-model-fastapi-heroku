@@ -7,3 +7,10 @@ stages:
     outs:
     - data/clean_census.csv
     - model/labelbinarizer.pkl
+  segregate:
+    cmd: python segregate.py
+    deps:
+    - data/clean_census.csv
+    outs:
+    - data/test.csv
+    - data/train.csv

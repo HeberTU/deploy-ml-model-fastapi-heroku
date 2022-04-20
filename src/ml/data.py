@@ -1,3 +1,4 @@
+from typing import Tuple
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
@@ -6,7 +7,7 @@ import pandera as pa
 from pandera.typing import DataFrame
 
 from src.settings import settings, data_config
-from src.schemas.census import CensusInputSchema
+from src.schemas.census import CensusInputSchema, CensusCleanSchema
 
 
 def preprocess_data() -> DataFrame[CensusInputSchema]:
@@ -17,7 +18,7 @@ def preprocess_data() -> DataFrame[CensusInputSchema]:
     data.columns = [col.strip().replace("-", "_") for col in data.columns]
 
     data = data.apply(
-        lambda col: col.str.strip() if col.dtype=='O' else col
+        lambda col: col.str.strip() if col.dtype == 'O' else col
     )
 
     data = data.drop(
@@ -25,14 +26,14 @@ def preprocess_data() -> DataFrame[CensusInputSchema]:
     )
 
     data = data.replace(
-        to_replace= {"?": None}
+        to_replace={"?": None}
     )
 
     data = data.dropna()
 
     @pa.check_types
     def check_inputs(
-        data_frame: DataFrame[CensusInputSchema],
+            data_frame: DataFrame[CensusInputSchema],
     ) -> DataFrame[CensusInputSchema]:
         """Validate Census Input schema."""
 
@@ -41,8 +42,36 @@ def preprocess_data() -> DataFrame[CensusInputSchema]:
     return check_inputs(data)
 
 
+def preprocess_target(
+        data: DataFrame[CensusInputSchema]
+) -> Tuple[DataFrame[CensusCleanSchema], LabelBinarizer]:
+    """Binarize salary variable (target).
+
+    Args:
+        data: Census input schema.
+
+    Returns:
+        data: Cleaned census schema.
+        lb:  Trained LabelBinarizer.
+
+    """
+
+    lb = LabelBinarizer()
+    data.salary = lb.fit_transform(data.salary).ravel()
+
+    @pa.check_types
+    def check_inputs(
+            data_frame: DataFrame[CensusInputSchema],
+    ) -> DataFrame[CensusCleanSchema]:
+        """Validate Census Input schema."""
+
+        return data_frame
+
+    return check_inputs(data), lb
+
+
 def process_data(
-    X, categorical_features=[], label=None, training=True, encoder=None, lb=None
+        X, categorical_features=[], label=None, training=True, encoder=None, lb=None
 ):
     """ Process the data used in the machine learning pipeline.
 

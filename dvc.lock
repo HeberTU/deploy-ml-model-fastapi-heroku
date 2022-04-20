@@ -7,10 +7,14 @@ stages:
       md5: 145de00f6e6053d3f7044628f9a5b5ff
       size: 3974474
     - path: prepare.py
-      md5: 6dd8c6d15ac81ce5dba7896db8bddfac
-      size: 542
+      md5: 180e01bc994e0224ed001fe35cd347bd
+      size: 752
     outs:
     - path: data/clean_census.csv
-      md5: cb493eb6c40754ace6f26eac477437b8
-      size: 3087899
+      md5: 8df16ee76779a42ad1bee19d44983ebc
+      size: 2974759
+      isexec: true
+    - path: model/labelbinarizer.pkl
+      md5: 68d67643c2f11e180eaa335146ade2ea
+      size: 403
       isexec: true

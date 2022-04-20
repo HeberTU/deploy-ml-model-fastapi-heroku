@@ -17,7 +17,7 @@ class CensusInputSchema(pa.SchemaModel):
     age: Series[int] = pa.Field(coerce=True, ge=15, le=100)
     workclass: Series[str] = pa.Field(
         coerce=True,
-        isin=data_config["raw"]["columns"]["workclass"] + ["?"]
+        isin=data_config["raw"]["columns"]["workclass"]
     )
     fnlgt: Series[int] = pa.Field(coerce=True)
     education: Series[str] = pa.Field(
@@ -30,7 +30,7 @@ class CensusInputSchema(pa.SchemaModel):
     )
     occupation: Series[str] = pa.Field(
         coerce=True,
-        isin=data_config["raw"]["columns"]["occupation"] + ["?"]
+        isin=data_config["raw"]["columns"]["occupation"]
     )
     relationship: Series[str] = pa.Field(
         coerce=True,
@@ -47,5 +47,14 @@ class CensusInputSchema(pa.SchemaModel):
     hours_per_week: Series[int] = pa.Field(coerce=True)
     native_country: Series[str] = pa.Field(
         coerce=True,
-        isin=data_config["raw"]["columns"]["native_country"] + ["?"]
+        isin=data_config["raw"]["columns"]["native_country"]
     )
+    salary: Series[str] = pa.Field(
+        coerce=True,
+        isin=data_config["raw"]["columns"]["salary"]
+    )
+
+
+class CensusCleanSchema(CensusInputSchema):
+    """Census data cleaned schema."""
+    salary: Series[int] = pa.Field(coerce=True)

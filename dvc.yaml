@@ -6,3 +6,4 @@ stages:
     - prepare.py
     outs:
     - data/clean_census.csv
+    - model/labelbinarizer.pkl

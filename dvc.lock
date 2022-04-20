@@ -18,3 +18,18 @@ stages:
       md5: 68d67643c2f11e180eaa335146ade2ea
       size: 403
       isexec: true
+  segregate:
+    cmd: python segregate.py
+    deps:
+    - path: data/clean_census.csv
+      md5: 8df16ee76779a42ad1bee19d44983ebc
+      size: 2974759
+    outs:
+    - path: data/test.csv
+      md5: fd333b537b9cf0af3241e6907a2cc574
+      size: 594529
+      isexec: true
+    - path: data/train.csv
+      md5: a2bf47d0ab65bd75696186efeeabe74a
+      size: 2380345
+      isexec: true

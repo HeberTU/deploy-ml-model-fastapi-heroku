@@ -10,5 +10,6 @@ data:
       race: [White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other, Black]
       sex: [Female, Male]
       native_country: [United-States, Cambodia, England, Puerto-Rico, Canada, Germany, Outlying-US(Guam-USVI-etc), India, Japan, Greece, South, China, Cuba, Iran, Honduras, Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France, Dominican-Republic, Laos, Ecuador, Taiwan, Haiti, Columbia, Hungary, Guatemala, Nicaragua, Scotland, Thailand, Yugoslavia, El-Salvador, Trinadad&Tobago, Peru, Hong, Holand-Netherlands]
+      salary: ["<=50K", ">50K"]
   clean:
     name: clean_census.csv

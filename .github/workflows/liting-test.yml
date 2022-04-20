@@ -53,12 +53,12 @@ jobs:
       uses: iterative/setup-dvc@v1
 
     - name: Pull data from DVC
-      run: poetry run dvc pull -R
+      run: dvc pull -R
 
-    - name: Linting
-      run: |
-        poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    #- name: Linting
+    #  run: |
+    #    flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Test with pytest
       run: |
-        poetry run pytest -vv
+        pytest -vv

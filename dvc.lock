@@ -33,3 +33,21 @@ stages:
       md5: a2bf47d0ab65bd75696186efeeabe74a
       size: 2380345
       isexec: true
+  train:
+    cmd: python train.py
+    deps:
+    - path: data/train.csv
+      md5: a2bf47d0ab65bd75696186efeeabe74a
+      size: 2380345
+    - path: train.py
+      md5: aac0f56db539ed2d2304d7625cacfb63
+      size: 1264
+    outs:
+    - path: model/model.pkl
+      md5: a8dbbb4be72b861de04bd223c0e3760c
+      size: 49941825
+      isexec: true
+    - path: model/used_columns.pkl
+      md5: fc6976b9975ce01d5b243808c9e48cce
+      size: 146
+      isexec: true

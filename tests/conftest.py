@@ -9,6 +9,8 @@ import pytest
 import pandas as pd
 from src.ml.data import preprocess_data, preprocess_target
 from src.schemas.census import CensusInputSchema, CensusCleanSchema
+from src.settings import model_config
+from src.ml.model import get_training_inference_pipeline
 
 
 @pytest.fixture(scope="session")
@@ -81,3 +83,13 @@ def cleaned_data_example_dtypes():
         )
     )
     return example
+
+
+@pytest.fixture(scope="session")
+def model():
+    """preprocessed data for testing"""
+
+    model, _ = get_training_inference_pipeline(
+        model_config=model_config)
+
+    return model

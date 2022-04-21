@@ -9,7 +9,7 @@ import joblib
 import logging
 import pandas as pd
 from src.settings import settings, model_config
-from src.ml.model import train_model
+from src.ml.model import train_model, compute_model_metrics
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
@@ -33,6 +33,14 @@ def main(dry: bool = False):
         y_train=y_train,
         model_config=model_config
     )
+
+    logger.info("Calculating Metrics")
+    precision, recall, fbeta = compute_model_metrics(
+        y=y_train,
+        preds=model.predict(X_train[used_columns]))
+    logger.info(f"precision: {precision}")
+    logger.info(f"recall: {recall}")
+    logger.info(f"fbeta: {fbeta}")
 
     if not dry:
         logger.info("Writing Model & Used Columns")

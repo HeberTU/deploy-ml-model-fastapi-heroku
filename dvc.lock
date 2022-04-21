@@ -39,15 +39,43 @@ stages:
     - path: data/train.csv
       md5: a2bf47d0ab65bd75696186efeeabe74a
       size: 2380345
+    - path: src/config/global.yaml
+      md5: e42434eb81cc273ca1f65b278f4e661e
+      size: 2263
     - path: train.py
-      md5: aac0f56db539ed2d2304d7625cacfb63
-      size: 1264
+      md5: 319873876cb4dc3336cc7f13de37decf
+      size: 1575
     outs:
     - path: model/model.pkl
-      md5: a8dbbb4be72b861de04bd223c0e3760c
-      size: 49941825
+      md5: de6e8de5d2a048135325eabe42f61b8d
+      size: 99413697
       isexec: true
     - path: model/used_columns.pkl
       md5: fc6976b9975ce01d5b243808c9e48cce
       size: 146
       isexec: true
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+    - path: data/test.csv
+      md5: fd333b537b9cf0af3241e6907a2cc574
+      size: 594529
+    - path: evaluate.py
+      md5: 47ce4619ebc0fa5a6fbdcd83018b2ef8
+      size: 2208
+    - path: model/model.pkl
+      md5: de6e8de5d2a048135325eabe42f61b8d
+      size: 99413697
+    - path: model/used_columns.pkl
+      md5: fc6976b9975ce01d5b243808c9e48cce
+      size: 146
+    - path: src/config/global.yaml
+      md5: e42434eb81cc273ca1f65b278f4e661e
+      size: 2263
+    outs:
+    - path: model/global_metricts.json
+      md5: 0b6849c959e9012e171848db70540084
+      size: 106
+    - path: model/grouped_metrics.csv
+      md5: e8266e203c3c918f8534ac8ec4abed87
+      size: 6216

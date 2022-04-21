@@ -60,3 +60,4 @@ config = Config(
     config_path=settings.CONFIG_PATH
 )
 data_config: Dict = getattr(config, "global").get("data")
+model_config: Dict = getattr(config, "global").get("model")

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+"""This module test train stage.
 
 Created on: 4/21/2022
 @author: Heber Trujillo <heber.trj.urt@gmail.com> 

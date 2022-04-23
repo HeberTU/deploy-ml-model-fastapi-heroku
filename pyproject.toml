@@ -5,7 +5,7 @@ description = "classification model on publicly available Census Bureau data."
 authors = ["Heber Trujillo <heber.trj.urt@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.8.10"
 numpy = "^1.22.3"
 pandas = "^1.4.2"
 scikit-learn = "^1.0.2"
@@ -21,6 +21,7 @@ pydocstyle = "^6.1.1"
 toml = "^0.10.2"
 dvc = {extras = ["s3"], version = "^2.10.1"}
 pandera = "^0.10.1"
+scipy = "1.8.0"
 
 [tool.poetry.dev-dependencies]
 

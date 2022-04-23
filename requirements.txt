@@ -89,7 +89,7 @@ ruamel.yaml==0.17.21; python_version >= "3.7"
 s3fs==2022.3.0; python_version >= "3.7"
 s3transfer==0.5.2
 scikit-learn==1.0.2; python_version >= "3.7"
-scipy==1.6.1; python_version >= "3.7"
+scipy==1.8.0; python_version >= "3.8" and python_version < "3.11"
 scmrepo==0.0.16; python_version >= "3.7"
 shortuuid==1.0.8; python_version >= "3.7"
 shtab==1.5.3; python_version >= "3.7"

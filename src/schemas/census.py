@@ -57,4 +57,9 @@ class CensusInputSchema(pa.SchemaModel):
 
 class CensusCleanSchema(CensusInputSchema):
     """Census data cleaned schema."""
-    salary: Series[int] = pa.Field(coerce=True)
+    salary: Series[int] = pa.Field(coerce=True, isin=[0, 1])
+
+
+class CensusTestSchema(CensusCleanSchema):
+    """Census data cleaned schema."""
+    salary_pred: Series[int] = pa.Field(coerce=True, isin=[0, 1])

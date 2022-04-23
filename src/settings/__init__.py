@@ -61,3 +61,4 @@ config = Config(
 )
 data_config: Dict = getattr(config, "global").get("data")
 model_config: Dict = getattr(config, "global").get("model")
+metrics_config: Dict = getattr(config, "global").get("metrics")

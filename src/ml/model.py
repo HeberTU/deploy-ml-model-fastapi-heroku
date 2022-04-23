@@ -1,6 +1,7 @@
 import itertools
-from typing import Tuple, List, Dict, Union
+from typing import Tuple, List, Dict, Union, Callable
 
+import pandas as pd
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
 from sklearn.pipeline import Pipeline, make_pipeline
@@ -13,8 +14,8 @@ from pandera.typing import DataFrame
 
 import numpy as np
 
-from src.settings import model_config
-from src.schemas.census import CensusCleanSchema
+from src.settings import metrics_config
+from src.schemas.census import CensusTestSchema
 
 
 def get_training_inference_pipeline(
@@ -119,6 +120,87 @@ def compute_model_metrics(y, preds):
     precision = precision_score(y, preds, zero_division=1)
     recall = recall_score(y, preds, zero_division=1)
     return precision, recall, fbeta
+
+
+def compute_agg_metrics(
+        test_data: DataFrame[CensusTestSchema],
+        category: str
+) -> pd.DataFrame:
+    """Compute precision, recall, and F1 by feature level.
+
+    Args:
+        test_data: Census test Shchema.
+        category: categorical feature
+
+    Returns:
+        grouped_metrics: precision, recall, and F1 by feature level
+    """
+
+
+    def calculate_gruped_metric(
+            df: DataFrame[CensusTestSchema],
+            metric: Callable,
+            **kwargs
+    ) -> pd.DataFrame:
+        return metric(df.salary, df.salary_pred, **kwargs)
+
+    grouped_metrics = test_data.\
+        groupby(by=category).\
+        agg(obs=("salary", "count"))
+
+    for metric, config in metrics_config.items():
+
+        grouped_metrics = grouped_metrics.merge(
+            how="left",
+            right=test_data.
+                    groupby(by=category).
+                    apply(
+                        func=calculate_gruped_metric,
+                        metric=eval(metric),
+                        **config).\
+                    reset_index().\
+                    rename(columns={0: metric}),
+            on=category
+        )
+
+    grouped_metrics["feature"] = category
+    grouped_metrics = grouped_metrics.\
+        rename(columns={category: "levels"})
+
+    return grouped_metrics
+
+
+def compute_agg_metrics_by_categories(
+        test_data: DataFrame[CensusTestSchema],
+        categorical_features: List[str]
+) -> pd.DataFrame:
+    """Compute precision, recall, and F1 by feature level.
+
+    Args:
+        test_data: Census test Shchema.
+        categorical_features: List of categorical features
+
+    Returns:
+        grouped_metrics: precision, recall, and F1 for each level of each categorical
+          feature.
+    """
+    grouped_metrics: pd.DataFrame = pd.DataFrame()
+
+    for category in categorical_features:
+
+        temp = compute_agg_metrics(
+            test_data=test_data,
+            category=category
+        )
+
+        grouped_metrics = pd.concat(
+            objs=[
+                grouped_metrics,
+                temp
+            ]
+        )
+
+    return grouped_metrics
 
 
 def inference(model, X):

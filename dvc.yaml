@@ -18,7 +18,21 @@ stages:
     cmd: python train.py
     deps:
     - data/train.csv
+    - src/config/global.yaml
     - train.py
     outs:
     - model/model.pkl
     - model/used_columns.pkl
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+    - data/test.csv
+    - evaluate.py
+    - model/model.pkl
+    - model/used_columns.pkl
+    - src/config/global.yaml
+    outs:
+    - model/grouped_metrics.csv
+    metrics:
+    - model/global_metricts.json:
+        cache: false

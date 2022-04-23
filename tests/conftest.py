@@ -8,10 +8,12 @@ Licence,
 import joblib
 import pytest
 import pandas as pd
+from fastapi.testclient import TestClient
 from src.ml.data import preprocess_data, preprocess_target
 from src.schemas.census import CensusInputSchema, CensusCleanSchema
 from src.settings import settings, model_config
 from src.ml.model import get_training_inference_pipeline
+from main import app
 
 
 @pytest.fixture(scope="session")
@@ -166,3 +168,9 @@ def positive_example():
             index=[0]
         )
     return example
+
+
+@pytest.fixture(scope="session")
+def client():
+    """Get API client"""
+    return TestClient(app)

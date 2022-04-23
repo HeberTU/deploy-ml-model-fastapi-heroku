@@ -1,3 +1,4 @@
+import joblib
 import itertools
 from typing import Tuple, List, Dict, Union, Callable
 
@@ -14,7 +15,7 @@ from pandera.typing import DataFrame
 
 import numpy as np
 
-from src.settings import metrics_config
+from src.settings import metrics_config, settings
 from src.schemas.census import CensusTestSchema
 
 
@@ -217,4 +218,6 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    lb = joblib.load(settings.MODELS_PATH / "labelbinarizer.pkl")
+    pred = model.predict(X)[0]
+    return lb.inverse_transform(pred)[0]

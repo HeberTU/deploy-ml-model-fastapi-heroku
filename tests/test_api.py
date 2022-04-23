@@ -47,3 +47,15 @@ def test_validation_fail(client: Callable, false_example):
     request = client.post("/inference/", json=input_data)
 
     assert request.status_code == 422
+
+
+def test_get_method(client: Callable, false_example):
+    """Test positive example"""
+    request = client.get("/")
+
+    assert request.status_code == 200
+    assert request.json() == {
+        "message": "Hi!",
+        "model-card":
+            "https://github.com/HeberTU/deploy-ml-model-fastapi-heroku/blob/main/model_card.md"
+    }

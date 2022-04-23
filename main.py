@@ -5,12 +5,20 @@ Created on: 4/23/2022
 @author: Heber Trujillo <heber.trj.urt@gmail.com>
 Licence,
 """
+import os
 import joblib
 from fastapi import FastAPI
 import pandas as pd
 from src.schemas.inference import InputData
 from src.settings import settings
 from src.ml.model import inference
+
+if "DYNO" in os.environ and os.path.isdir(".dvc"):
+    print("Running DVC")
+    os.system("dvc config core.no_scm true")
+    if os.system("dvc pull") != 0:
+        exit("Pull failed")
+    os.system("rm -r .dvc .apt/usr/lib/dvc")
 
 app = FastAPI()
 model = joblib.load(filename=settings.MODELS_PATH / "model.pkl")

@@ -25,11 +25,11 @@ the [Census Income Data Set](https://archive.ics.uci.edu/ml/datasets/census+inco
 
 ## Metrics
 
-The evaluation metrics are:
+The evaluation metrics on the test set are:
 
-- precision 
-- recall
-- f-score
+- precision:  0.542807
+- recall: 0.83155
+- f-score: 0.65684
 
 ## Ethical Considerations
 
